@@ -21,7 +21,7 @@ export function LoginPageUi() {
                 email,
                 password,
             });
-            
+            if(!res.data.access_token) return;
             Cookies.set('token', res.data.access_token);
             router.push('/');
         } catch (error: any) {
