@@ -8,7 +8,7 @@ type FieldType = {
     email?: string
     password?: string;
 };
-const { ErrorBoundary } = Alert;
+
 export function CreateUserForm() {
     const [form] = useForm()
     const [notifapi, contextHolder] = notification.useNotification();
