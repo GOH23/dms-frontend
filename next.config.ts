@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  env: {
+    BACKEND_URI: process.env.BACKEND_URI
+  }
 };
 
 export default nextConfig;
