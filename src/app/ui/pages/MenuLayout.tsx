@@ -1,6 +1,6 @@
 "use client"
 
-import { Avatar, Badge, Button, Menu, Popover } from "antd";
+import { Avatar, Button, Menu, Popover } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { useState } from "react";
 import { UserOutlined, EditFilled, HomeOutlined } from "@ant-design/icons"

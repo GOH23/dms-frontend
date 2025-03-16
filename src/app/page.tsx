@@ -1,10 +1,9 @@
-import { Card, Col, Row, Skeleton } from "antd";
+import { Card, Skeleton } from "antd";
 import { securedApi } from "./ui/api/axios";
 
 import { cookies } from 'next/headers';
-import { CopyOutlined, UserOutlined } from "@ant-design/icons";
+import { CopyOutlined } from "@ant-design/icons";
 import { Suspense } from "react";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function Home() {

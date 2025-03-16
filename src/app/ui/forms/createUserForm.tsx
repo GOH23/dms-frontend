@@ -1,8 +1,7 @@
 "use client"
-import { Alert, Button, Form, FormProps, Input, notification } from "antd";
+import { Button, Form, Input, notification } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { api } from "../api/axios";
-import { useState } from "react";
 type FieldType = {
     username?: string;
     email?: string

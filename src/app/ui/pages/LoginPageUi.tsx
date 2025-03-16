@@ -1,12 +1,12 @@
 "use client"
 
 import axios from "axios";
-import { useAnimate, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Cookies from 'js-cookie';
 import { useRouter } from "next/navigation";
-import { Button, Form, Input } from "antd";
+import { Button, Input } from "antd";
 import { useAuth } from "./context/authContext";
 export function LoginPageUi() {
     const [email, setEmail] = useState('');
