@@ -2,13 +2,14 @@
 
 import { Avatar, Button, Menu, Popover } from "antd";
 import Sider from "antd/es/layout/Sider";
+import Cookies from "js-cookie";
 import { useState } from "react";
 import { UserOutlined, EditFilled, HomeOutlined } from "@ant-design/icons"
 import { useAuth } from "./context/authContext";
 import { useRouter, usePathname } from "next/navigation";
 export function MenuLayout() {
     const [collapsed, setCollapsed] = useState(false);
-    const { user,logOut,loading } = useAuth()
+    const { user, logOut, loading } = useAuth()
     const { push } = useRouter()
     const path = usePathname()
     const getKey = () => {
@@ -27,26 +28,26 @@ export function MenuLayout() {
                 return "/";
         }
     }
-    if (!user ) {
+    if(loading || !user){
         return
     }
     return (<Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
         {user && <div className="text-white flex justify-center items-center flex-wrap gap-1.5 font-bold">
             <Popover placement="rightTop" title="Данные о пользователе" content={<div>
                 <p>ник: {user.username}</p>
-                <Button danger className="w-full" size="small" type="primary" onClick={()=>{
-                    if(logOut) logOut();
+                <Button danger className="w-full" size="small" type="primary" onClick={() => {
+                    if (logOut) logOut();
                 }}>
                     Выйти
                 </Button>
-                
+
             </div>}>
                 <Avatar style={{ backgroundColor: "#f56a00" }} size="large">
                     {user.username[0].toUpperCase()}
                 </Avatar>
             </Popover>
         </div>}
-        <Menu theme="dark" onClick={(el) => {
+        {user && <Menu theme="dark" onClick={(el) => {
             push(el.key)
         }} defaultSelectedKeys={[getKey()]} mode="inline" items={user.role == "admin" ? [
             { label: "Главная", icon: <HomeOutlined />, key: "/" },
@@ -83,6 +84,6 @@ export function MenuLayout() {
                     }
                 ]
             }
-        ]} />
+        ]} />}
     </Sider>)
 }
