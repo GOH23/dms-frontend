@@ -30,7 +30,7 @@ export function UsersTableUi({ users }: { users: UsersType[] }) {
     return (<div>
         <Table columns={[
             { title: "Id", dataIndex: "id" },
-            { title: "Никнейм", dataIndex: "name" },
+            { title: "ФИО", dataIndex: "name" },
             { title: "Роль", dataIndex: "role" },
             { title: "Действия", dataIndex: "action" }
         ]} scroll={{ x: 'max-content' }} dataSource={[...users.map((el, ind) => {

@@ -4,7 +4,7 @@ import { Avatar, Button, Menu, Popover } from "antd";
 import Sider from "antd/es/layout/Sider";
 import Cookies from "js-cookie";
 import { useState } from "react";
-import { UserOutlined, EditFilled, HomeOutlined } from "@ant-design/icons"
+import { UserOutlined, EditFilled, HomeOutlined, TeamOutlined, ApartmentOutlined } from "@ant-design/icons"
 import { useAuth } from "./context/authContext";
 import { useRouter, usePathname } from "next/navigation";
 export function MenuLayout() {
@@ -24,6 +24,14 @@ export function MenuLayout() {
                 return "/documents/create"
             case "/documents/user":
                 return "/documents/user"
+            case "/departments":
+                return "/departments"
+            case "/departments/create":
+                return "/departments/create"
+            case "/positions":
+                return "/positions"
+            case "/positions/create":
+                return "/positions/create"
             default:
                 return "/";
         }
@@ -68,6 +76,20 @@ export function MenuLayout() {
                 children: [
                     { label: "Добавить пользователя", key: "/users/create" },
                     { label: "Все пользователи", key: "/users" }
+                ]
+            },
+            {
+                label: "Меню отделов", icon: <ApartmentOutlined />, key: "department_menu", type: "submenu",
+                children: [
+                    { label: "Добавить отдел", key: "/departments/create" },
+                    { label: "Все отделы", key: "/departments" }
+                ]
+            },
+            {
+                label: "Меню должностей", icon: <TeamOutlined />, key: "position_menu", type: "submenu",
+                children: [
+                    { label: "Добавить должность", key: "/positions/create" },
+                    { label: "Все должности", key: "/positions" }
                 ]
             },
         ] : [

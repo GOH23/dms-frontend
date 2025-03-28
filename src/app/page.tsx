@@ -10,7 +10,9 @@ import {
   InfoCircleOutlined,
   CheckCircleFilled,
   ClockCircleOutlined,
-  DashboardOutlined
+  DashboardOutlined,
+  TeamOutlined,
+  ApartmentOutlined
 } from "@ant-design/icons";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
@@ -22,8 +24,12 @@ export default async function Home() {
   const cookie = await cookies();
   const posts = await securedApi(cookie.get("token")?.value).get("documents").catch(() => {
     redirect("/login")
-  })
+  });
   const users = await securedApi(cookie.get("token")?.value).get("users").then(res => res.data).catch(err => console.log(err));
+  
+  // Получаем данные об отделах и должностях
+  const departments = await securedApi(cookie.get("token")?.value).get("departments").then(res => res.data).catch(err => console.log(err)) || [];
+  const positions = await securedApi(cookie.get("token")?.value).get("positions").then(res => res.data).catch(err => console.log(err)) || [];
   
   // Заглушки данных, которые будут заменены на реальные данные в будущем
   const recentActivity = [
@@ -85,30 +91,38 @@ export default async function Home() {
             </Link>
           </Suspense>
         </Col>
-        
-        {/* <Col xs={24} sm={12} md={8} lg={6}>
-          <Card hoverable className="h-full">
-            <Statistic 
-              title="Активные процессы" 
-              value={5} 
-              prefix={<ClockCircleOutlined />}
-              valueStyle={{ color: '#722ed1' }}
-            />
-            <p className="mt-2">Текущие активные процессы в системе</p>
-          </Card>
+
+        <Col xs={24} sm={12} md={8} lg={6}>
+          <Suspense fallback={<Skeleton />}>
+            <Link href="/departments">
+              <Card hoverable className="h-full">
+                <Statistic 
+                  title="Отделы" 
+                  value={departments?.length || 0} 
+                  prefix={<ApartmentOutlined />}
+                  valueStyle={{ color: '#722ed1' }}
+                />
+                <p className="mt-2">Управление отделами организации</p>
+              </Card>
+            </Link>
+          </Suspense>
         </Col>
         
         <Col xs={24} sm={12} md={8} lg={6}>
-          <Card hoverable className="h-full">
-            <Statistic 
-              title="Выполненные задачи" 
-              value={12} 
-              prefix={<CheckCircleFilled />}
-              valueStyle={{ color: '#52c41a' }}
-            />
-            <p className="mt-2">Задачи, выполненные за последнюю неделю</p>
-          </Card>
-        </Col> */}
+          <Suspense fallback={<Skeleton />}>
+            <Link href="/positions">
+              <Card hoverable className="h-full">
+                <Statistic 
+                  title="Должности" 
+                  value={positions?.length || 0} 
+                  prefix={<TeamOutlined />}
+                  valueStyle={{ color: '#eb2f96' }}
+                />
+                <p className="mt-2">Управление должностями сотрудников</p>
+              </Card>
+            </Link>
+          </Suspense>
+        </Col>
       </Row>
       
       <Divider orientation="left">Активность</Divider>
@@ -148,6 +162,62 @@ export default async function Home() {
                 <Progress percent={89} status="active" />
               </div>
             </Space>
+          </Card>
+        </Col>
+      </Row>
+      
+      <Divider orientation="left">Организационная структура</Divider>
+      
+      <Row gutter={[16, 16]} className="mb-6">
+        <Col xs={24} md={12}>
+          <Card title={<><ApartmentOutlined /> Отделы</>} className="h-full">
+            {departments && departments.length > 0 ? (
+              <div>
+                {departments.slice(0, 5).map((dept: any, index: number) => (
+                  <div key={index} className="py-2 border-b last:border-b-0">
+                    <div className="flex justify-between">
+                      <p className="font-semibold">{dept.name}</p>
+                      {dept.description && <p className="text-gray-500">{dept.description}</p>}
+                    </div>
+                  </div>
+                ))}
+                {departments.length > 5 && (
+                  <div className="mt-4">
+                    <Link href="/departments">
+                      <p className="text-secondary">Просмотреть все отделы →</p>
+                    </Link>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <p>Отделы пока не добавлены</p>
+            )}
+          </Card>
+        </Col>
+        
+        <Col xs={24} md={12}>
+          <Card title={<><TeamOutlined /> Должности</>} className="h-full">
+            {positions && positions.length > 0 ? (
+              <div>
+                {positions.slice(0, 5).map((pos: any, index: number) => (
+                  <div key={index} className="py-2 border-b last:border-b-0">
+                    <div className="flex justify-between">
+                      <p className="font-semibold">{pos.name}</p>
+                      {pos.description && <p className="text-gray-500">{pos.description}</p>}
+                    </div>
+                  </div>
+                ))}
+                {positions.length > 5 && (
+                  <div className="mt-4">
+                    <Link href="/positions">
+                      <p className="text-secondary">Просмотреть все должности →</p>
+                    </Link>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <p>Должности пока не добавлены</p>
+            )}
           </Card>
         </Col>
       </Row>
