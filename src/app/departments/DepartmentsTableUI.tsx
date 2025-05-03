@@ -1,14 +1,18 @@
 "use client"
 
 import { Table, Button, Popconfirm, notification, Space, Typography } from "antd";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, UserOutlined } from "@ant-design/icons";
 import { api } from "../ui/api/axios";
 import { useRouter } from "next/navigation";
+import { UsersType } from "../ui/pages/UsersTableUi";
 
 type DepartmentType = {
     id: string;
     name: string;
     description?: string;
+    phoneNumber: string
+    email: string
+    head: UsersType
 };
 
 export function DepartmentsTableUI({ departments }: { departments: DepartmentType[] }) {
@@ -46,17 +50,21 @@ export function DepartmentsTableUI({ departments }: { departments: DepartmentTyp
             render: (text: string) => text || '-'
         },
         {
+            title: 'Номер телефона',
+            dataIndex: 'phoneNumber',
+            key: 'phoneNumber',
+        },
+        {
+            title: 'Почта',
+            dataIndex: 'email',
+            key: 'email',
+        },
+        {
             title: 'Действия',
             key: 'actions',
             render: (_: any, record: DepartmentType) => (
                 <Space>
-                    {/* <Button 
-                        type="primary" 
-                        icon={<EditOutlined />} 
-                        onClick={() => push(`/departments/edit/${record.id}`)}
-                    >
-                        Редактировать
-                    </Button> */}
+
                     <Popconfirm
                         title="Удалить отдел?"
                         description="Вы уверены, что хотите удалить этот отдел?"
@@ -65,6 +73,16 @@ export function DepartmentsTableUI({ departments }: { departments: DepartmentTyp
                         cancelText="Нет"
                     >
                         <Button danger icon={<DeleteOutlined />}>Удалить</Button>
+                    </Popconfirm>
+                    
+                    <Popconfirm
+                        title="Глава отдела"
+                        description={<div>
+                            <p>ФИО: {record.head.username}</p>
+                            <p>Роль: {record.head.role}</p>
+                        </div>}
+                    >
+                        <Button type="primary" icon={<UserOutlined />}>Глава отдела</Button>
                     </Popconfirm>
                 </Space>
             )

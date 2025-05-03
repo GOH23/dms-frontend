@@ -2,16 +2,21 @@
 import { Button, Form, Input, notification } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { api } from "../api/axios";
+import { UserSelector } from "../components/UserSelector";
+import { useState } from "react";
 
 type FieldType = {
     name: string;
     description?: string;
+    headId: number,
+    phoneNumber: string,
+    email: string
 };
 
 export function CreateDepartmentForm() {
     const [form] = useForm();
     const [notifapi, contextHolder] = notification.useNotification();
-    
+
     return (<>
         <Form
             form={form}
@@ -44,6 +49,27 @@ export function CreateDepartmentForm() {
                 name="description"
             >
                 <Input.TextArea rows={4} />
+            </Form.Item>
+            <Form.Item<FieldType>
+                label="Глава отдела"
+                name="headId"
+                rules={[{ required: true, message: 'Пожалуйста, введите номер телефона!' }]}
+            >
+                <UserSelector maxCount={1}/>
+            </Form.Item>
+            <Form.Item<FieldType>
+                label="Номер телефона"
+                name="phoneNumber"
+                rules={[{ required: true, message: 'Пожалуйста, введите номер телефона!' }]}
+            >
+                <Input/>
+            </Form.Item>
+            <Form.Item<FieldType>
+                label="Почта"
+                name="email"
+                rules={[{ required: true, message: 'Пожалуйста, введите номер телефона!' }]}
+            >
+                <Input/>
             </Form.Item>
             <Form.Item label={null}>
                 <Button type="primary" htmlType="submit">

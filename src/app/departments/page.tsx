@@ -8,7 +8,6 @@ export default async function DepartmentsPage() {
     const departments = await securedApi(cookie.get("token")?.value).get("departments").catch((err) => {
         redirect('/login');
     });
-
     return (
         <main className="container mx-auto">
             <p className="text-xl text-center font-bold">Отделы</p>

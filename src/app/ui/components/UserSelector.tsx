@@ -14,9 +14,10 @@ interface User {
 interface UserSelectorProps {
   value?: number[];
   onChange?: (value: number[]) => void;
+  maxCount?: number
 }
 
-export function UserSelector({ value, onChange }: UserSelectorProps) {
+export function UserSelector({ value, onChange, maxCount = Infinity}: UserSelectorProps) {
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
 
@@ -42,6 +43,7 @@ export function UserSelector({ value, onChange }: UserSelectorProps) {
       mode="multiple"
       placeholder="Выберите пользователей"
       value={value}
+      maxCount={maxCount}
       onChange={onChange}
       style={{ width: '100%' }}
       loading={loading}
